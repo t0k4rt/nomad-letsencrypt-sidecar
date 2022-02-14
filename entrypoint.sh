@@ -8,4 +8,9 @@ set -e
 #     cp /config/haproxy_hook.sh /etc/letsencrypt/renewal-hooks/deploy/haproxy_hook.sh
 #     chmod +x /etc/letsencrypt/renewal-hooks/deploy/haproxy_hook.sh
 # fi
-certbot certonly --config /config/certbot.ini --staging --non-interactive "$@"
+if [ "$DEBUG" = 1 ]; then
+    ls -l /config
+    cat /config/*
+fi
+
+certbot certonly --config /config/certbot.ini --non-interactive "$@"
