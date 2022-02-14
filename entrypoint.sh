@@ -10,6 +10,8 @@ set -e
 # fi
 if [ "$DEBUG" = 1 ]; then
     ls -l /config
+    cat /config/*
 fi
 
-certbot "$@"
+# certbot certonly --config /config/certbot.ini --non-interactive "$@"
+certbot certonly --non-interactive "$@"

@@ -11,7 +11,10 @@ upload_cert() {
     cat "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "/etc/letsencrypt/live/$DOMAIN/privkey.pem" > "/$DEST_DIR/$DOMAIN.pem"
     echo "Upload cert $DOMAIN to consul"
     # echo "consul kv put HAPROXY_$DOMAIN @$DEST_DIR/$DOMAIN.pem"
-    CONSUL_HTTP_ADDR=http://host.docker.internal:8500 consul kv put "HAPROXY_$DOMAIN" "@$DEST_DIR/$DOMAIN.pem"
+    if [ ! -z "$CONSUL_HTTP_ADDR" ]; then
+        echo "Will use consul endpoint: $CONSUL_HTTP_ADDR"
+    fi
+    consul kv put "HAPROXY_$DOMAIN" "@$DEST_DIR/$DOMAIN.pem"
 }
 
 echo "$DOMAINS" | while read -r line ; do upload_cert "$line" ; done
