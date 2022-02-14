@@ -29,7 +29,7 @@ job "certbot_gandi" {
 
       config {
         image   = "ghcr.io/t0k4rt/nomad-letsencrypt-sidecar:main"
-        args = ["-d your domain", "--staging"]
+        args = ["certonly", "--config /config/certbot.ini", "--non-interactive", "-d your domain", "--staging"]
       }
     }
   }
