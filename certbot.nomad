@@ -18,7 +18,7 @@ job "certbot_gandi" {
 
       template {
         data = <<EOH
-        email = infra@kairosagency.com
+        email = #email_here
         authenticator = dns-gandi
         dns-gandi-credentials = {{ env "NOMAD_SECRETS_DIR" }}/secrets/gandi.ini
         agree-tos = true
@@ -28,13 +28,8 @@ job "certbot_gandi" {
       }
 
       config {
-        image   = "git.kairosagency.com:4567/devops/certbot-gandi:[[ env "DOCKER_TAG" ]]"
-        args = ["-d admin-dev.oh.kairosfire.fr", "-d api-dev.ovh.kairosfire.fr", "-d grafana-dev.ovh.kairosfire.fr", "--staging"]
-        auth {
-          username  = "gitlab-ci-token"
-          password  = "[[ env "CI_JOB_TOKEN" ]]"
-        }
-        ports = ["db"]
+        image   = "ghcr.io/t0k4rt/nomad-letsencrypt-sidecar:main"
+        args = ["-d your domain", "--staging"]
       }
     }
   }
