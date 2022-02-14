@@ -12,5 +12,8 @@ jobs:
     - name: Build the nomad-letsencrypt-sidecar Docker image
       run: |
         echo $CONTAINER_REGISTRY_TOKEN | docker login ghcr.io -u t0k4rt --password-stdin
+        docker build . --tag ghcr.io/t0k4rt/nomad-letsencrypt-sidecar:latest
+        docker run ghcr.io/t0k4rt/nomad-letsencrypt-sidecar:latest
+        docker push ghcr.io/t0k4rt/nomad-letsencrypt-sidecar:latest
       env:
         CONTAINER_REGISTRY_TOKEN: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
